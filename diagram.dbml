@@ -1,0 +1,62 @@
+Table users {
+  user_id integer [primary key]
+  username varchar
+  email varchar
+  password varchar
+  role varchar
+}
+
+Table assessments {
+  assessment_id integer [primary key]
+  title varchar
+  description text
+  total_marks integer
+  passing_marks integer
+  created_at timestamp
+  instructor_id integer
+}
+
+Table questions {
+  question_id integer [primary key]
+  assessment_id integer
+  question_text text
+  marks integer
+  question_type varchar
+}
+
+Table options {
+  option_id integer [primary key]
+  question_id integer
+  option_text text
+  is_correct boolean
+}
+
+Table submissions {
+  submission_id integer [primary key]
+  user_id integer
+  assessment_id integer
+  submission_time timestamp
+}
+
+Table answers {
+  answer_id integer [primary key]
+  submission_id integer
+  question_id integer
+  answer_text text
+}
+
+Table results {
+  result_id integer [primary key]
+  submission_id integer
+  total_score integer
+  status varchar
+}
+
+Ref: assessments.instructor_id > users.user_id
+Ref: questions.assessment_id > assessments.assessment_id
+Ref: options.question_id > questions.question_id
+Ref: submissions.user_id > users.user_id
+Ref: submissions.assessment_id > assessments.assessment_id
+Ref: answers.submission_id > submissions.submission_id
+Ref: answers.question_id > questions.question_id
+Ref: results.submission_id > submissions.submission_id
